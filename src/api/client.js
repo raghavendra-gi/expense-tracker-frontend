@@ -1,4 +1,4 @@
-const API_BASE = '/api'; // The Vite proxy forwards this to http://127.0.0.1:8000
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export async function expenseAPI(endpoint, options = {}) {
   const token = localStorage.getItem('access_token');
