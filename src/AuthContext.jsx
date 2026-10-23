@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { AuthContext } from './useAuth'; // <-- Import from the new file
+import { createContext, useContext, useState, useEffect } from 'react';
 import { expenseAPI } from './api/client';
+
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -13,7 +14,7 @@ export function AuthProvider({ children }) {
       expenseAPI('/auth/me')
         .then(data => {
           setUser(data);
-          document.body.classList.add('logged-in');
+          document.body.classList.add('logged-in'); 
         })
         .catch(() => {
           localStorage.removeItem('access_token');
@@ -33,14 +34,14 @@ export function AuthProvider({ children }) {
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('current_user', JSON.stringify(data.user));
     setUser(data.user);
-    document.body.classList.add('logged-in');
+    document.body.classList.add('logged-in'); 
   };
 
   const logout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('current_user');
     setUser(null);
-    document.body.classList.remove('logged-in');
+    document.body.classList.remove('logged-in'); 
     window.location.hash = '#/login';
   };
 
@@ -50,3 +51,6 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+// 👇 THIS IS THE LINE THAT WAS MISSING AND BROKE THE BUILD 👇
+export const useAuth = () => useContext(AuthContext);
