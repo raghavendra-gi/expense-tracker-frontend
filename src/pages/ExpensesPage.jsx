@@ -308,7 +308,7 @@ export default function ExpensesPage() {
                               </>
                             )}
 
-                            {isApprover && canDecide && e.status !== 'Rejected' && (
+                            {isApprover && e.status === 'Pending' && (
                               <button
                                 className="btn btn-danger btn-sm"
                                 onClick={() => handleAction('reject', e)}
